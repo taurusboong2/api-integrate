@@ -6,7 +6,6 @@ function Users() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-
   const fetchUsers = async () => {
     try {
       setError(null);
@@ -19,20 +18,25 @@ function Users() {
     }
     setLoading(false);
   };
-  fetchUsers();
-}
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   if (loading) return <div>로딩중..</div>;
   if (error) return <div>에러가 발생했습니다</div>;
   if (!users) return null;
   return (
-    <ul>
-      {users.map((user) => (
-        <li key={user.id}>
-          {user.username} ({user.name})
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul>
+        {users.map((user) => (
+          <li key={user.id}>
+            {user.username} ({user.name})
+          </li>
+        ))}
+      </ul>
+      <button onClick={fetchUsers}>다시 불러오기</button>
+    </>
   );
 }
 
